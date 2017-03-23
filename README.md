@@ -1,6 +1,6 @@
 # File Metadata
 
-File metadata microservice.
+File metadata microservice. Upload a file at [`/upload`](/upload) to view its filesize.
 
 ## User Story
 

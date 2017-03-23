@@ -1,18 +1,23 @@
 const express = require('express');
-const pug = require('pug');
-const marked = require('marked');
-const fs = require('fs');
+const pug     = require('pug');
+const marked  = require('marked');
+const fs      = require('fs');
 
-const app = express();
+const uploadController = require('./controllers/upload');
+
+const app    = express();
+const router = express.Router();
 const readme = fs.readFileSync('./README.md').toString();
-const index = marked(readme);
-const port = process.env.PORT || 3750;
+const index  = marked(readme);
+const port   = process.env.PORT || 3750;
 
-app.set('view engine', 'pug')
+app.set('view engine', 'pug');
 
-app.use('/upload', function(req, res) {
-  res.render('index', {});
-});
+router.route('/upload')
+  .get(uploadController.renderView)
+  .post(uploadController.uploadFile, uploadController.getFileSize);
+
+app.use('/', router);
 app.use('/', (_, res) => res.send(index));
 
 app.listen(port);
